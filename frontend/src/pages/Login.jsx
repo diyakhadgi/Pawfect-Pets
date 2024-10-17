@@ -1,139 +1,79 @@
-import * as React from "react";
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  TextField,
-  InputAdornment,
-  Link,
-  IconButton,
-} from "@mui/material";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { AppProvider, SignInPage } from "@toolpad/core";
-import { useTheme } from "@mui/material/styles";
+import axios from "axios";
+import React, { useRef } from 'react';
+import { Button, TextField, Container, Typography, Box } from '@mui/material';
 
-const providers = [{ id: "credentials", name: "Email and Password" }];
+const Login = () => {
+  const email = useRef();
+  const password = useRef();
 
-function CustomEmailField() {
-  return (
-    <TextField
-      id="input-with-icon-textfield"
-      label="Username"
-      name="email"
-      type="email"
-      size="small"
-      required
-      fullWidth
-      slotProps={{
-        input: {
-          startAdornment: (
-            <InputAdornment position="start">
-              <AccountCircle fontSize="inherit" />
-            </InputAdornment>
-          ),
-        },
-      }}
-      variant="outlined"
-    />
-  );
-}
+  const loginHandler = async (e) => {
+    e.preventDefault();
+    const loginData = {
+      "email": email.current.value,
+      "password": password.current.value
+    };
 
-function CustomPasswordField() {
-  const [showPassword, setShowPassword] = React.useState(false);
+    try {
+      const response = await axios.post("http://localhost:8000/user/login", loginData, {
+        timeout: 1000,
+      });
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+      const getAccessToken = response.data.accessToken;
+      localStorage.setItem("accessToken", getAccessToken);
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+      if (response.status === 200) {
+        alert("Login successful");
+      } else {
+        alert("Login failed. Please check your credentials.");
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error);
+        alert("Login failed");
+      } else {
+        alert("Unknown error occurred. Try again");
+      }
+    }
+  }
 
   return (
-    <FormControl sx={{ my: 2 }} fullWidth variant="outlined">
-      <InputLabel size="small" htmlFor="outlined-adornment-password">
-        Password
-      </InputLabel>
-      <OutlinedInput
-        id="outlined-adornment-password"
-        type={showPassword ? "text" : "password"}
-        name="password"
-        size="small"
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
-              edge="end"
-              size="small"
-            >
-              {showPassword ? (
-                <VisibilityOff fontSize="inherit" />
-              ) : (
-                <Visibility fontSize="inherit" />
-              )}
-            </IconButton>
-          </InputAdornment>
-        }
-        label="Password"
-      />
-    </FormControl>
-  );
+    <Container component="main" maxWidth="xs">
+      <Box mt={5} mb={3}>
+        <Typography component="h1" variant="h5">
+          Login
+        </Typography>
+      </Box>
+      <form onSubmit={loginHandler}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          label="Email"
+          inputRef={email}
+          autoComplete="email"
+          autoFocus
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          label="Password"
+          type="password"
+          inputRef={password}
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+        >
+          Login
+        </Button>
+      </form>
+    </Container>
+  )
 }
 
-function CustomButton() {
-  return (
-    <Button
-      type="submit"
-      variant="outlined"
-      color="info"
-      size="small"
-      disableElevation
-      fullWidth
-      sx={{ my: 2 }}
-    >
-      Sign In
-    </Button>
-  );
-}
-
-function SignUpLink() {
-  return (
-    <Link href="/" variant="body2">
-      Sign up
-    </Link>
-  );
-}
-
-function ForgotPasswordLink() {
-  return (
-    <Link href="/" variant="body2">
-      Forgot password?
-    </Link>
-  );
-}
-
-export default function SlotsSignIn() {
-  const theme = useTheme();
-  return (
-    <AppProvider theme={theme}>
-      <SignInPage
-        signIn={(provider, formData) =>
-          alert(
-            `Signing in with "${provider.name}" and credentials: ${formData.get("email")}, ${formData.get("password")}`
-          )
-        }
-        slots={{
-          emailField: CustomEmailField,
-          passwordField: CustomPasswordField,
-          submitButton: CustomButton,
-          signUpLink: SignUpLink,
-          forgotPasswordLink: ForgotPasswordLink,
-        }}
-        providers={providers}
-      />
-    </AppProvider>
-  );
-}
+export default Login;
