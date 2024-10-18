@@ -1,14 +1,10 @@
-import Navbar from "./components/Navbar"
-import Login from "./pages/Login";
-// import Register from "./pages/Register";
+import MyRoutes from "./Routes/MyRoutes";
 
 function App() {
 
   return (
     <>
-      <Navbar />
-      <Login/>
-      {/* <Register/> */}
+      <MyRoutes/>
     </>
   )
 }

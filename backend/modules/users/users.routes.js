@@ -8,6 +8,6 @@ const userRouter = express.Router();
 userRouter.post('/register',userRegister);
 userRouter.post('/login',userLogin)
 
-userRouter.use(auth);
+//userRouter.use(auth);
 
 module.exports = userRouter;

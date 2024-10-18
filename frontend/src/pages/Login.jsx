@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Button, TextField, Container, Typography, Box } from '@mui/material';
+import Navbar from "../components/Navbar";
 
 const Login = () => {
   const email = useRef();
@@ -37,6 +38,9 @@ const Login = () => {
   }
 
   return (
+    <>
+    <Navbar/>
+
     <Container component="main" maxWidth="xs">
       <Box mt={5} mb={3}>
         <Typography component="h1" variant="h5">
@@ -73,6 +77,7 @@ const Login = () => {
         </Button>
       </form>
     </Container>
+    </>
   )
 }
 
