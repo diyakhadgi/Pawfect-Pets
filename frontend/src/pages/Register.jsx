@@ -2,6 +2,7 @@ import axios from "axios";
 import { useRef } from 'react';
 import { Button, TextField, Container, Typography, Box } from '@mui/material';
 import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const name = useRef();
@@ -92,7 +93,12 @@ const Register = () => {
           color="primary"
         >
           Register
-        </Button>
+          </Button>
+          <Link to="/login">
+            <Typography fontSize="15px" variant="h5" align="center" pt="15px">
+            Already have an account? Login now
+          </Typography>
+          </Link>
       </form>
     </Container>
     </>

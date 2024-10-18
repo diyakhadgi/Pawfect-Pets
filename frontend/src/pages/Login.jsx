@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRef } from 'react';
 import { Button, TextField, Container, Typography, Box } from '@mui/material';
 import Navbar from "../components/Navbar";
-
+import { Link } from "react-router-dom";
 const Login = () => {
   const email = useRef();
   const password = useRef();
@@ -74,7 +74,12 @@ const Login = () => {
           color="primary"
         >
           Login
-        </Button>
+          </Button>
+          <Link to="/register">
+            <Typography fontSize="15px" variant="h5" align="center" pt="15px">
+            Don't have an account? Register now.
+          </Typography>
+          </Link>
       </form>
     </Container>
     </>
