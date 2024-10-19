@@ -1,9 +1,11 @@
 const express = require("express");
-const addProduct = require("./controllers/AddProducts");
+const addProduct = require('./controllers/AddProducts')
+const upload = require("../../middlewares/upload");
 const auth = require("../../middlewares/auth");
 
 const productsRouter = express.Router();
 
-productsRouter.post("/addProducts", auth, addProduct);
-
+// Accept multiple files with the name 'productImages' in the form
+productsRouter.post("/addProducts", upload.array('productImages', 5),addProduct);
+//auth
 module.exports = productsRouter;
