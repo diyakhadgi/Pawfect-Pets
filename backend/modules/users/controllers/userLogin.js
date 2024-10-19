@@ -32,7 +32,7 @@ const userLogin = async (req, res) => {
     { expiresIn: "30 days" }
   );
   console.log(req.body);
-  res.status(200).json({
+  res.status(200).json({ 
     status: "Login Succesfull",
     accessToken,
   });
