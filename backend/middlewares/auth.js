@@ -13,9 +13,10 @@ const auth = (req,res,next) =>{
     //checking headers
     const token = authorization.split("Bearer ")[1];
     try {
-        const checkToken = jwt.verify(token.process.env.jwt_salt);
+        const checkToken = jwt.verify(token.process.env.jwt_secret_key);
         req.user = checkToken;
         console.log("Token Parsed: ",req.user);
+        next();
     } catch (error) {
         res.status(401).json({
             status:"Failed",

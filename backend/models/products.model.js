@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const itemSchema = new mongoose.Schema({
+const productsSchema = new mongoose.Schema({
     itemName: {
         type:String,
         required:[true,"Name is required"]
@@ -27,10 +27,14 @@ const itemSchema = new mongoose.Schema({
             values:['toys','food','accessories','house'],
             message:'{VALUE} is not supported'
         },
+    },
+    imageUrl:{
+        type:String,
+        required:[true,"Image URL is required"]
     }
 
 },{
     timestamps:true
 })
-const itemModel = mongoose.model('items',itemSchema);
-module.export = itemModel;
+const productModel = mongoose.model('products',productsSchema);
+module.export = productModel;
