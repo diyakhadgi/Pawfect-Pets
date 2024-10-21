@@ -21,6 +21,7 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export default function AddProducts() {
+  const aT = localStorage.getItem('accessToken');
   const [itemName, setItemName] = useState("");
   const [itemPrice, setItemPrice] = useState("");
   const [stocks, setStocks] = useState(1);
@@ -89,6 +90,9 @@ export default function AddProducts() {
       const response = await fetch("http://localhost:8000/product/addProducts", {
         method: "POST",
         body: formData, // Use formData as the body
+        headers: {
+          "Authorization": "Bearer " + aT
+        }
       });
   
       const data = await response.json();

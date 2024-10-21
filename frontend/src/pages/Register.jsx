@@ -24,10 +24,8 @@ const Register = () => {
         timeout: 1000,
       });
 
-      const getAccessToken = response.data.accessToken;
-      localStorage.setItem("accessToken", getAccessToken);
 
-      if (response.ok) {
+      if (response.status === 200) {
         alert("Registered successfully");
       }
     } catch (error) {

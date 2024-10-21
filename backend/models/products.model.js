@@ -16,11 +16,9 @@ const productsSchema = new mongoose.Schema({
     },
     expiryDate: {
         type: Date,
-        required: true,
       },
       manufactureDate: {
         type: Date,
-        required: true,
       },
     // Changed color to an array of strings
     color: [{
