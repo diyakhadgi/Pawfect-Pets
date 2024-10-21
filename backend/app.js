@@ -4,6 +4,7 @@ const cors = require('cors');
 const userRouter = require('./modules/users/users.routes');
 const productsRouter = require('./modules/products/products.routes');
 const cartRouter = require('./modules/cart/carts.routes');
+const path = require('path');
 const app = express();
 
 
@@ -26,6 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/user',userRouter);
 app.use('/product',productsRouter);

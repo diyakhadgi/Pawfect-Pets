@@ -8,6 +8,7 @@ import Food from "../pages/section/Food";
 import Accessories from "../pages/section/Accessories";
 import Toys from "../pages/section/Toys";
 import AddProducts from "../pages/adminpages/AddProducts";
+import Shop from "../pages/Shop";
 
 export default function MyRoutes() {
   return (
@@ -23,7 +24,8 @@ export default function MyRoutes() {
         <Route path="/accessories" element={<Accessories />} />
         <Route path="/toys" element={<Toys />} />
         <Route path="/addproducts" element={<AddProducts />} />
-      </Routes>
+        <Route path="/shop" element={<Shop/>}/>      
+        </Routes>
     </BrowserRouter>
   );
 }

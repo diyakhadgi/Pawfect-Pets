@@ -99,7 +99,7 @@ export default function AddProducts() {
       });
   
       const data = await response.json();
-      console.log(data); // Handle response from server
+      console.log("Data",data); // Handle response from server
       if (response.ok) {
         toast.success('Product Added');
         setItemName("");
