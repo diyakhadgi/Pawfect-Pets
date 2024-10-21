@@ -50,9 +50,7 @@ export default function AddProducts() {
     setImageUrls(urls);
   };
 
-  const handleColorChange = (event) => {
-    setColors(event.target.value);
-  };
+
 
   const handleAddColor = () => {
     setColors([...colors, ""]); // Add an empty color input
