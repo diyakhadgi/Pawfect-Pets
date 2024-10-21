@@ -28,7 +28,7 @@ const userLogin = async (req, res) => {
       password: getUser.password,
       name: getUser.name,
     },
-    process.env.jwt_salt,
+    process.env.jwt_secret_key,
     { expiresIn: "30 days" }
   );
   console.log(req.body);

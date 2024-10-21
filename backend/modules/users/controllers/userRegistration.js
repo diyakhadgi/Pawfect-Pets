@@ -1,29 +1,43 @@
 const mongoose = require('mongoose');
-const bycrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
-const userRegister = async(req,res)=>{
-    const User = mongoose.model('users');
-    const {name,email,password,address} = req.body;
-    const encryptedPassword = await bycrypt.hash(password,10);
+const userRegister = async (req, res) => {
+  const User = mongoose.model('users');
+  const { name, email, password, address } = req.body;
 
-    try {
-        const createUser = await User.create({
-            name,
-            email,
-            password: encryptedPassword,
-            address
-        })
-    } catch (error) {
-        res.status(400).json({
-            status:"Registration Failed",
-            message:error.message
-        })
-        return;
+  try {
+    // Check if the user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      throw new Error('Email is already in use');
     }
 
-    console.log(req.body);
+    // Encrypt the password
+    const encryptedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user
+    const createUser = await User.create({
+      name,
+      email,
+      password: encryptedPassword,
+      address
+    });
+
+    // Success response
     res.status(200).json({
-        status:"Registration Succesfull"
-    })
-}
+      status: "Registration Successful",
+      user: createUser._id, // You can return the user ID or other necessary details
+    });
+  } catch (error) {
+    // Error response
+    res.status(400).json({
+      status: "Registration Failed",
+      message: error.message
+    });
+    return;
+  }
+
+  console.log(req.body);  // You can remove this after debugging
+};
+
 module.exports = userRegister;
