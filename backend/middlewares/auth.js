@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const auth = (req, res, next) => {
-    console.log(req.headers);
+    // console.log(req.headers);
     const authorization = req.headers.authorization;
     
     if (!authorization) {
@@ -17,7 +17,8 @@ const auth = (req, res, next) => {
     try {
         const checkToken = jwt.verify(token, process.env.jwt_secret_key);
         req.user = checkToken;
-        console.log("Token Parsed: ", req.user);
+        // console.log("Token Parsed: ", req.user);
+        console.log('Auth Checked');
         next(); // Call next only if token is valid
     } catch (error) {
         return res.status(401).json({
