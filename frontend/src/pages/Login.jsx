@@ -3,7 +3,12 @@ import { useRef } from 'react';
 import { Button, TextField, Container, Typography, Box } from '@mui/material';
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
+  const navigate = useNavigate();
   const email = useRef();
   const password = useRef();
 
@@ -23,7 +28,10 @@ const Login = () => {
       localStorage.setItem("accessToken", getAccessToken);
 
       if (response.status === 200) {
-        alert("Login successful");
+        toast.success('Login Succesful');
+        setTimeout(()=>{
+          navigate('/home');
+        },1000)
       } else {
         alert("Login failed. Please check your credentials.");
       }
@@ -81,6 +89,7 @@ const Login = () => {
           </Typography>
           </Link>
       </form>
+      <ToastContainer/>
     </Container>
     </>
   )

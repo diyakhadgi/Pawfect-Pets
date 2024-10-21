@@ -3,6 +3,8 @@ import { useRef } from 'react';
 import { Button, TextField, Container, Typography, Box } from '@mui/material';
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
   const name = useRef();
@@ -26,7 +28,7 @@ const Register = () => {
 
 
       if (response.status === 200) {
-        alert("Registered successfully");
+        toast.success('Registration successful');
       }
     } catch (error) {
       if (error.response) {
@@ -69,7 +71,7 @@ const Register = () => {
           variant="outlined"
           margin="normal"
           required
-          fullWidth
+          fullWidth 
           label="Email"
           inputRef={email}
           autoComplete="email"
@@ -98,6 +100,7 @@ const Register = () => {
           </Typography>
           </Link>
       </form>
+      <ToastContainer />
     </Container>
     </>
   )

@@ -6,7 +6,10 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react";
+import Navbar from "../../components/Navbar";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -97,6 +100,17 @@ export default function AddProducts() {
   
       const data = await response.json();
       console.log(data); // Handle response from server
+      if (response.ok) {
+        toast.success('Product Added');
+        setItemName("");
+        setItemPrice("");
+        setStocks(1);
+        setExpiryDate(null);
+        setManufactureDate(null);
+        setColors([]);
+        setTypeOfItem("");
+        setImageUrls([]);
+      }
     } catch (error) {
       console.error("Error adding product:", error);
     }
@@ -105,6 +119,8 @@ export default function AddProducts() {
   
 
   return (
+    <>
+    <Navbar/>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Container component="main" maxWidth="xs">
         <Box mt={5} mb={3} >
@@ -221,6 +237,8 @@ export default function AddProducts() {
           </form>
         </Box>
       </Container>
+      <ToastContainer/>
     </LocalizationProvider>
+    </>
   );
 }
