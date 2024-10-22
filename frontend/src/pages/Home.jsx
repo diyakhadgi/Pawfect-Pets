@@ -12,6 +12,7 @@ import dog4 from "../assets/dog4.jpeg";
 import dog5 from "../assets/dog5.jpeg";
 import dog6 from "../assets/dog6.jpeg";
 import Card from "react-bootstrap/Card";
+import Footer from "../components/Footer";
 
 export default function Home() {
   return (
@@ -137,6 +138,8 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <Footer/>
     </>
   );
 }
