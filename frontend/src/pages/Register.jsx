@@ -5,12 +5,20 @@ import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
   const name = useRef();
   const email = useRef();
   const password = useRef();
   const address = useRef();
+  const getAccessToken = localStorage.getItem("accessToken");
+
+  if (getAccessToken) {
+    return <Navigate to="/" />;
+  }
 
   const regisHandler = async (e) => {
     e.preventDefault();
@@ -29,10 +37,13 @@ const Register = () => {
 
       if (response.status === 200) {
         toast.success('Registration successful');
+        setTimeout(() => {
+          navigate('/login');
+        }, 1000);
       }
     } catch (error) {
       if (error.response) {
-        console.log(error)
+        toast.error("Registration failed");
       } else {
         alert("Unknown error occurred. Try again");
       }
