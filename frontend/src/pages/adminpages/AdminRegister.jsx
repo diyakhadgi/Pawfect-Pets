@@ -3,6 +3,8 @@ import * as Yup from "yup";
 import { Container, TextField, Button, Typography, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import profile from "../../assets/logo.png";
 
 const AdminRegister = () => {
   const navigate = useNavigate(); // Hook to programmatically navigate
@@ -52,10 +54,17 @@ const AdminRegister = () => {
   });
 
   return (
+    <>
+      <Link to="/"><Typography class="relative top-28 right-1 text-center font-semibold hover:text-sky-600 ">View Website</Typography></Link>
+      <Link to="/adminLogin"><Typography class="relative top-28 right-1 text-center font-semibold hover:text-sky-600  ">Already have an account? Sign in</Typography></Link>
+      <div class="flex border-2 border-sky-950 absolute top-40 right-96 p-10">
+        <div class="image">
+          <img src={profile} alt="" />
+        </div>
     <Container component="main" maxWidth="xs">
       <Paper elevation={3} style={{ padding: "20px" }}>
         <Typography variant="h5" align="center">
-          Admin Register
+          REGISTER AS ADMIN
         </Typography>
         <form onSubmit={formik.handleSubmit} noValidate>
           <TextField
@@ -104,7 +113,9 @@ const AdminRegister = () => {
         </form>
       </Paper>
       <ToastContainer/>
-    </Container>
+        </Container>
+      </div>
+      </>
   );
 };
 

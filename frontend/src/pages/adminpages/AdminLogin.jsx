@@ -7,9 +7,10 @@ import {
   Typography,
   Paper,
 } from '@mui/material';
-import Navbar from '../../components/Navbar';
+import profile from "../../assets/logo.png";
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const AdminLogin = () => {
@@ -58,11 +59,16 @@ const AdminLogin = () => {
 
   return (
     <>
-    <Navbar/>
+      <Link to="/"><Typography class="relative top-28 right-1 text-center font-semibold hover:text-sky-600  ">View Website</Typography></Link>
+      <Link to="/adminRegister"><Typography class="relative top-28 right-1 text-center font-semibold hover:text-sky-600 ">Don't have an account? Sign Up</Typography></Link>
+      <div class="flex border-2 border-sky-950 absolute top-40 right-96 p-10">
+        <div class="image">
+          <img src={profile} alt="" />
+        </div>
     <Container component="main" maxWidth="xs">
       <Paper elevation={3} style={{ padding: '20px' }}>
         <Typography variant="h5" align="center">
-          Admin Login
+          LOGIN AS ADMIN
         </Typography>
         <form onSubmit={formik.handleSubmit} noValidate>
           <TextField
@@ -100,7 +106,8 @@ const AdminLogin = () => {
         </form>
       </Paper>
       <ToastContainer/>
-    </Container>
+        </Container>
+        </div>
     </>
   );
 };
