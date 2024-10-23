@@ -17,10 +17,18 @@ const Shop = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        const authToken = localStorage.getItem('accessToken');
         const response = await fetch(
-          "http://localhost:8000/product/getProducts"
+          "http://localhost:8000/product/getallProducts",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${authToken}` // Add the token here
+            }
+          }
         ); // Adjust the endpoint as needed
         const data = await response.json();
+        console.log(data)
         setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
