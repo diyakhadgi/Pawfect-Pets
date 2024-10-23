@@ -10,6 +10,7 @@ import Toys from "../pages/section/Toys";
 import AddProducts from "../pages/adminpages/AddProducts";
 import Shop from "../pages/Shop";
 import Profile from "../pages/Profile";
+import SingleProduct from "../pages/SingleProduct";
 
 export default function MyRoutes() {
   return (
@@ -26,6 +27,7 @@ export default function MyRoutes() {
         <Route path="/toys" element={<Toys />} />
         <Route path="/addproducts" element={<AddProducts />} />
         <Route path="/shop" element={<Shop />} />  
+        <Route path="/productdetails/:id" element={<SingleProduct/>}/>
         <Route path="/profile" element={<Profile/>}/>
         </Routes>
     </BrowserRouter>

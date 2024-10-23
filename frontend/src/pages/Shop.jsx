@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import BookmarkAdd from "@mui/icons-material/BookmarkAddOutlined";
 import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -48,6 +49,7 @@ const Shop = () => {
         <Grid container spacing={3}>
           {products.map((product) => (
             <Grid item xs={12} sm={6} md={4} key={product._id}>
+              <Link to={`/productdetails/${product._id}`}>
               <Card>
                 <CardMedia
                   component="img"
@@ -73,6 +75,7 @@ const Shop = () => {
                   </Button>
                 </CardContent>
               </Card>
+            </Link>
             </Grid>
           ))}
         </Grid>
