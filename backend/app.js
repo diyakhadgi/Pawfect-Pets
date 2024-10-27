@@ -6,6 +6,7 @@ const productsRouter = require('./modules/products/products.routes');
 const cartRouter = require('./modules/cart/carts.routes');
 const path = require('path');
 const adminRouter = require('./modules/admin/admin.routes');
+const adoptionRouter = require('./modules/adopt/adoption.routes');
 const app = express();
 
 
@@ -35,6 +36,7 @@ app.use('/user',userRouter);
 app.use('/product',productsRouter);
 app.use('/admin',adminRouter);
 app.use('/cart',cartRouter);
+app.use('/adopt',adoptionRouter);
 
 app.listen(8000,()=>{
     console.log('Server starged succesfully');
