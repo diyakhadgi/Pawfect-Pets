@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Container, Typography, Card, CardMedia, CardContent } from "@mui/material";
+import BreadCrumbs from "../components/BreadCrumbs";
 
 export default function SingleProduct() {
     const { id } = useParams();
@@ -35,6 +36,7 @@ export default function SingleProduct() {
     return (
         <>
             <Navbar />
+      <BreadCrumbs/>
             <Container>
                 <Card>
                     <CardMedia

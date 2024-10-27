@@ -12,6 +12,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"; // Import the s
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 
+
 const Shop = () => {
   const [products, setProducts] = useState([]);
 
