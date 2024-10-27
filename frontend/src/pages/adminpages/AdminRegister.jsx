@@ -57,8 +57,8 @@ const AdminRegister = () => {
     <>
       <Link to="/"><Typography class="relative top-28 right-1 text-center font-semibold hover:text-sky-600 ">View Website</Typography></Link>
       <Link to="/adminLogin"><Typography class="relative top-28 right-1 text-center font-semibold hover:text-sky-600  ">Already have an account? Sign in</Typography></Link>
-      <div class="flex border-2 border-sky-950 absolute top-40 right-96 p-10">
-        <div class="image">
+      <div className="flex border-2 border-sky-950 absolute top-40 right-96 p-10">
+        <div className="image">
           <img src={profile} alt="" />
         </div>
     <Container component="main" maxWidth="xs">

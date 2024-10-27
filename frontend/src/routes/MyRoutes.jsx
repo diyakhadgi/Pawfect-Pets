@@ -14,6 +14,7 @@ import SingleProduct from "../pages/SingleProduct";
 import AdminLogin from "../pages/adminpages/AdminLogin";
 import AdminRegister from "../pages/adminpages/AdminRegister";
 import AdminDashboard from "../pages/adminpages/AdminDashboard";
+import MyCart from "../pages/MyCart";
 
 export default function MyRoutes() {
   return (
@@ -35,6 +36,7 @@ export default function MyRoutes() {
         <Route path="/adminLogin" element={<AdminLogin/>}/>
         <Route path="/adminRegister" element={<AdminRegister/>}/>
         <Route path="/adminDashboard" element={<AdminDashboard/>}/>
+        <Route path="/cart" element={<MyCart/>}/>
         </Routes>
     </BrowserRouter>
   );
