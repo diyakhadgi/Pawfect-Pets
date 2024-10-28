@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   Container,
   Grid,
@@ -8,34 +8,47 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"; // Import the shopping cart icon
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"; 
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 
+const fetchProducts = async () => {
+  const authToken = localStorage.getItem("accessToken");
+  const response = await fetch("http://localhost:8000/product/getallProducts", {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`,
+    },
+  });
+  const data = await response.json();
+  return data;
+};
 
 const Shop = () => {
-  const [products, setProducts] = useState([]);
+  
+  const {
+    isLoading,
+    error,
+    data: products,
+  } = useQuery({ queryKey: ["products"], queryFn: fetchProducts });
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const authToken = localStorage.getItem("accessToken");
-        const response = await fetch("http://localhost:8000/product/getallProducts", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
-        const data = await response.json();
-        console.log(data);
-        setProducts(data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+  
+  if (isLoading) {
+    return (
+      <>
+        <Navbar />
+        Loading...
+      </>
+    );
+  }
+  if (error) {
+    return (
+      <>
+        <Navbar />
+        Error:{error.message}
+      </>
+    );
+  }
 
   return (
     <>
