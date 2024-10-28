@@ -36,7 +36,7 @@ app.use('/user',userRouter);
 app.use('/product',productsRouter);
 app.use('/admin',adminRouter);
 app.use('/cart',cartRouter);
-app.use('/adopt',adoptionRouter);
+app.use('/dog',adoptionRouter);
 
 app.listen(8000,()=>{
     console.log('Server starged succesfully');
