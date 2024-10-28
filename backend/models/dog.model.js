@@ -21,10 +21,10 @@ const dogSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  imageUrl: {
+  imageUrl:[ {
     type: String,
     required: true
-  },
+  }],
   description: {
     type: String,
     required: true

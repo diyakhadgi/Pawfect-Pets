@@ -2,18 +2,24 @@ const fs = require('fs');
 const path = require('path');
 const multer = require("multer");
 
-// Define the path for the upload directory
-const uploadDirectory = path.join(__dirname, '../uploads/products');
+// Define paths for different upload directories
+const productUploadDirectory = path.join(__dirname, '../uploads/products');
+const dogUploadDirectory = path.join(__dirname, '../uploads/dogs');
 
-// Create the directory if it doesn't exist
-if (!fs.existsSync(uploadDirectory)) {
-    fs.mkdirSync(uploadDirectory, { recursive: true });
+// Create directories if they don't exist
+if (!fs.existsSync(productUploadDirectory)) {
+    fs.mkdirSync(productUploadDirectory, { recursive: true });
+}
+if (!fs.existsSync(dogUploadDirectory)) {
+    fs.mkdirSync(dogUploadDirectory, { recursive: true });
 }
 
 // Configure multer storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, uploadDirectory);
+        // Set directory based on route
+        const uploadPath = req.baseUrl.includes('products') ? productUploadDirectory : dogUploadDirectory;
+        cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-${file.originalname}`);
