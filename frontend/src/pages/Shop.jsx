@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Container,
   Grid,
@@ -7,8 +7,8 @@ import {
   CardContent,
   Typography,
   Button,
-  Box,
   CircularProgress,
+  Box
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"; 
 import Navbar from "../components/Navbar";
@@ -22,19 +22,20 @@ const fetchProducts = async () => {
       Authorization: `Bearer ${authToken}`,
     },
   });
+  if (!response.ok) {
+    throw new Error("Failed to fetch products");
+  }
   const data = await response.json();
   return data;
 };
 
 const Shop = () => {
-  
-  const {
-    isLoading,
-    error,
-    data: products,
-  } = useQuery({ queryKey: ["products"], queryFn: fetchProducts });
+  const queryClient = useQueryClient();
+  const { isLoading, error, data: products } = useQuery({
+    queryKey: ["products"],
+    queryFn: fetchProducts,
+  });
 
-  
   if (isLoading) {
     return (
       <>
@@ -45,11 +46,24 @@ const Shop = () => {
       </>
     );
   }
+
   if (error) {
     return (
       <>
         <Navbar />
-        Error:{error.message}
+        <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
+          <Typography variant="h6" color="error">
+            Error: {error.message}
+          </Typography>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => queryClient.invalidateQueries(["products"])}
+            sx={{ mt: 2 }}
+          >
+            Retry
+          </Button>
+        </Box>
       </>
     );
   }
@@ -83,7 +97,7 @@ const Shop = () => {
                     </Typography>
                     <Button
                       variant="contained"
-                      startIcon={<ShoppingCartIcon />} // Use shopping cart icon here
+                      startIcon={<ShoppingCartIcon />}
                       sx={{ mt: 1 }}
                     >
                       Add to Cart

@@ -9,6 +9,7 @@ import {
   CardContent,
   Box,
   CircularProgress,
+  Button,
 } from "@mui/material";
 import BreadCrumbs from "../components/BreadCrumbs";
 
@@ -19,10 +20,14 @@ const fetchProduct = async (id) => {
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${authToken}`, 
+        Authorization: `Bearer ${authToken}`,
       },
     }
   );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch product");
+  }
 
   const data = await response.json();
   return data;
@@ -34,25 +39,40 @@ export default function SingleProduct() {
     isLoading,
     error,
     data: product,
-  } = useQuery({ queryKey: ["product"], queryFn: () => fetchProduct(id) });
-
+    refetch,
+  } = useQuery({
+    queryKey: ["product", id],
+    queryFn: () => fetchProduct(id),
+  });
 
   if (isLoading) {
     return (
       <>
-  <Navbar />
+        <Navbar />
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
           <CircularProgress />
         </Box>
-      
       </>
-    ); 
+    );
   }
+
   if (error) {
     return (
       <>
         <Navbar />
-        Error: {error.message}
+        <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
+          <Typography variant="h6" color="error">
+            Error: {error.message}
+          </Typography>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={refetch}
+            sx={{ mt: 2 }}
+          >
+            Retry
+          </Button>
+        </Box>
       </>
     );
   }
@@ -66,7 +86,7 @@ export default function SingleProduct() {
           <CardMedia
             component="img"
             height="200"
-            image={`http://localhost:8000${product.imageUrl[0]}`} // Assuming imageUrl contains a valid path
+            image={`http://localhost:8000${product.imageUrl[0]}`}
             alt={product.itemName}
           />
           <CardContent>
