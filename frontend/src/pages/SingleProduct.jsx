@@ -7,6 +7,8 @@ import {
   Card,
   CardMedia,
   CardContent,
+  Box,
+  CircularProgress,
 } from "@mui/material";
 import BreadCrumbs from "../components/BreadCrumbs";
 
@@ -38,8 +40,11 @@ export default function SingleProduct() {
   if (isLoading) {
     return (
       <>
-        <Navbar />
-        Loading...
+  <Navbar />
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+          <CircularProgress />
+        </Box>
+      
       </>
     ); 
   }

@@ -7,6 +7,8 @@ import {
   CardContent,
   Typography,
   Button,
+  Box,
+  CircularProgress,
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"; 
 import Navbar from "../components/Navbar";
@@ -37,7 +39,9 @@ const Shop = () => {
     return (
       <>
         <Navbar />
-        Loading...
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+          <CircularProgress />
+        </Box>
       </>
     );
   }
