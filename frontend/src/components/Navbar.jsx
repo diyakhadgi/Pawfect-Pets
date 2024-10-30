@@ -5,12 +5,18 @@ import { FaShoppingCart } from "react-icons/fa";
 
 const Navbar = () => {
   const [isMainMenuOpen, setIsMainMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const isLoggedIn = localStorage.getItem("accessToken");
   const navigate = useNavigate();
 
   const toggleMainMenu = () => {
     setIsMainMenuOpen(!isMainMenuOpen);
   };
+  
+  const toggleCartDropdown = () => {
+    setIsCartOpen(!isCartOpen);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("accessToken");  // Clear the access token
     navigate("/login");  // Redirect to login page
@@ -20,15 +26,22 @@ const Navbar = () => {
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <Link
-            to="/"
-            className="flex items-center space-x-3 rtl:space-x-reverse"
-          >
+          <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={logo} className="h-8" alt="Pawfect Pets Logo" />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Pawfect Pets
             </span>
           </Link>
+
+          {/* Search Box */}
+          <div className="relative flex-1 mx-4">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-full p-2 rounded-lg border border-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            />
+          </div>
+
           <button
             onClick={toggleMainMenu}
             type="button"
@@ -59,53 +72,56 @@ const Navbar = () => {
           >
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li>
-                <Link
-                  to="/shop"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
+                <Link to="/shop" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                   Shop
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/adoption"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
+                <Link to="/adoption" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                   Adoption
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/aboutUs"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
+                <Link to="/aboutUs" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                   About Us
                 </Link>
               </li>
 
               {isLoggedIn ? (
-                 <>
-                 <Link to="/profile" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Profile</Link>
-                 <button onClick={handleLogout} className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Logout</button>
-               </>
+                <>
+                  <Link to="/profile" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                    Profile
+                  </Link>
+                  <button onClick={handleLogout} className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                    Logout
+                  </button>
+                </>
               ) : (
                 <li>
-                  <Link
-                    to="/login"
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                  >
+                  <Link to="/login" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                     Login
                   </Link>
                 </li>
               )}
 
-              <li>
-                <Link
-                  to="/cart"
+              {/* Cart Dropdown */}
+              <li className="relative">
+                <button
+                  onClick={toggleCartDropdown}
                   className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                 >
                   <FaShoppingCart className="w-5 h-5" />
-                </Link>
+                </button>
+                {isCartOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+                    <Link to="/cart" className="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                      View Cart
+                    </Link>
+                    <Link to="/checkout" className="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                      Checkout
+                    </Link>
+                  </div>
+                )}
               </li>
             </ul>
           </div>
