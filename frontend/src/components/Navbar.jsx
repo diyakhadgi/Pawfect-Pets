@@ -2,6 +2,8 @@ import { useState } from "react";
 import logo from "../assets/logo.png";
 import { useNavigate, Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const Navbar = () => {
   const [isMainMenuOpen, setIsMainMenuOpen] = useState(false);
@@ -21,6 +23,22 @@ const Navbar = () => {
     localStorage.removeItem("accessToken");  // Clear the access token
     navigate("/login");  // Redirect to login page
   };
+
+  // Fetch cart items
+  const { data: cartData } = useQuery({queryKey:["cart"], queryFn: async () => {
+    const authToken = localStorage.getItem("accessToken");
+    const response = await axios.get("http://localhost:8000/cart/getcart", {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    return response.data;
+  },
+    enabled: !!isLoggedIn, // Only fetch if logged in
+  });
+
+  // Calculate the total item count
+  const cartItemCount = cartData?.cart?.items?.reduce((count, item) => count + item.quantity, 0) || 0;
 
   return (
     <>
@@ -92,7 +110,7 @@ const Navbar = () => {
                   <Link to="/profile" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                     Profile
                   </Link>
-                  <button onClick={handleLogout} className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                  <button onClick={handleLogout} className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                     Logout
                   </button>
                 </>
@@ -111,12 +129,24 @@ const Navbar = () => {
                   className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                 >
                   <FaShoppingCart className="w-5 h-5" />
+                  {cartItemCount > 0 && (
+                    <span className="absolute top-0 right-0 bg-red-600 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                      {cartItemCount}
+                    </span>
+                  )}
                 </button>
                 {isCartOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                    <Link to="/cart" className="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                      View Cart
-                    </Link>
+                    {cartData?.cart?.items.length > 0 ? (
+                      cartData.cart.items.map((item) => (
+                        <div key={item.productId} className="p-2 border-b dark:border-gray-600">
+                          <p>{item.itemName}</p>
+                          <p>Quantity: {item.quantity}</p>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="p-4 text-center dark:text-white">Cart is empty</p>
+                    )}
                     <Link to="/checkout" className="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                       Checkout
                     </Link>
