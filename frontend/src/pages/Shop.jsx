@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Container,
   Grid,
@@ -8,34 +8,68 @@ import {
   Typography,
   Button,
   CircularProgress,
-  Box
+  Box,
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"; 
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
+// Fetch products function
 const fetchProducts = async () => {
   const authToken = localStorage.getItem("accessToken");
-  const response = await fetch("http://localhost:8000/product/getallProducts", {
+  const response = await axios.get("http://localhost:8000/product/getallProducts", {
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`,
     },
   });
-  if (!response.ok) {
-    throw new Error("Failed to fetch products");
-  }
-  const data = await response.json();
-  return data;
+  return response.data;
 };
 
 const Shop = () => {
   const queryClient = useQueryClient();
+
+  // Fetch products query
   const { isLoading, error, data: products } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
   });
 
+  // Mutation to add products to cart
+  const addToCart = useMutation({
+    mutationFn: async (items) => {
+      const authToken = localStorage.getItem("accessToken");
+      
+      // Wrap items in an object
+      return await axios.post(
+        "http://localhost:8000/cart/addtocart",
+        { items }, // Send an object with items
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cart"]);
+    },
+  });
+
+  // Handle add to cart with quantity
+  const handleAddToCart = (product) => {
+    const quantity = 1; // Set the quantity, can be modified later
+    const itemsToAdd = [{
+      productId: product._id,
+      itemName: product.itemName,
+      itemPrice: product.itemPrice,
+      quantity,
+      totalPrice: product.itemPrice * quantity, // Calculate total price based on quantity
+    }];
+    addToCart.mutate(itemsToAdd); // Pass the array to mutate
+  };
+
+  // Loading and error states
   if (isLoading) {
     return (
       <>
@@ -78,33 +112,33 @@ const Shop = () => {
         <Grid container spacing={3}>
           {products.map((product) => (
             <Grid item xs={12} sm={6} md={4} key={product._id}>
-              <Link to={`/productdetails/${product._id}`}>
-                <Card>
+              <Card>
+                <Link to={`/productdetails/${product._id}`}>
                   <CardMedia
                     component="img"
                     height="200"
                     image={`http://localhost:8000${product.imageUrl[0]}`}
                     alt={product.itemName}
-                    sx={{ objectFit: "cover" }}
                   />
-                  <CardContent>
-                    <Typography variant="h6">{product.itemName}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Price: ${product.itemPrice}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Stock: {product.stocks}
-                    </Typography>
-                    <Button
-                      variant="contained"
-                      startIcon={<ShoppingCartIcon />}
-                      sx={{ mt: 1 }}
-                    >
-                      Add to Cart
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Link>
+                </Link>
+                <CardContent>
+                  <Typography variant="h6">{product.itemName}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Price: ${product.itemPrice}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Stock: {product.stocks}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    startIcon={<ShoppingCartIcon />}
+                    onClick={() => handleAddToCart(product)}
+                    sx={{ mt: 1 }}
+                  >
+                    Add to Cart
+                  </Button>
+                </CardContent>
+              </Card>
             </Grid>
           ))}
         </Grid>
