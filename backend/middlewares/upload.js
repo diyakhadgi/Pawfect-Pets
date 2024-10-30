@@ -17,14 +17,17 @@ if (!fs.existsSync(dogUploadDirectory)) {
 // Configure multer storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        // Set directory based on route
-        const uploadPath = req.baseUrl.includes('products') ? productUploadDirectory : dogUploadDirectory;
+        let uploadPath = dogUploadDirectory; // Default to dog directory
+        if (req.body.itemName) {
+            uploadPath = productUploadDirectory; // If itemName exists, use product directory
+        }
         cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-${file.originalname}`);
     }
 });
+
 
 // Configure multer to handle multiple file uploads
 const upload = multer({ storage });
