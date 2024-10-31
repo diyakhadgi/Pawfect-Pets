@@ -17,6 +17,9 @@ import AdminDashboard from "../pages/adminpages/AdminDashboard";
 import MyCart from "../pages/MyCart";
 import DogForm from "../pages/adminpages/DogForm";
 import AdoptionForm from "../pages/Adoption";
+import Success from "../pages/payment/Success";
+import Cancel from "../pages/payment/Cancel";
+
 
 export default function MyRoutes() {
   return (
@@ -40,6 +43,8 @@ export default function MyRoutes() {
         <Route path="/adminDashboard" element={<AdminDashboard />} />
         <Route path="/dogForm" element={<DogForm />} />
         <Route path="/cart" element={<MyCart />} />
+        <Route path="/success" element={<Success/>}/>
+        <Route path="/cancel" element={<Cancel/>}/>
       </Routes>
     </BrowserRouter>
   );

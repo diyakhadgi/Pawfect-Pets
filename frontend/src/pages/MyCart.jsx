@@ -3,6 +3,8 @@ import Navbar from '../components/Navbar';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Container, Grid, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import {loadStripe} from '@stripe/stripe-js';
+
 
 const fetchCart = async () => {
   const authToken = localStorage.getItem("accessToken");
@@ -14,13 +16,16 @@ const fetchCart = async () => {
     },
   });
   
-  console.log("API Response Data:", response.data);
+  console.log("API Response Data:", response.data.cart);
+  return response.data;
   
   // Return cart data or fallback to default
-  return response.data.cart;
 };
 
 export default function MyCart() {
+
+
+  
   const queryClient = useQueryClient();
   const { isLoading, error, data: cart }= useQuery({
     queryKey: ["cart"],
@@ -58,7 +63,29 @@ export default function MyCart() {
       </>
     );
   }
+  const makePayment = async ()=>{
+    const stripe = await loadStripe(import.meta.env.VITE_STRIPE_KEY);
+    console.log("Payload",cart.cart);
+    const body = {
+      products : {items:cart.cart.items}
+    }
+    const headers = {
+      "Content-Type":"application/json"
+    }
+    const response = await fetch("http://localhost:8000/checkout/payment",{
+      method:"POST",
+      headers:headers,
+      body:JSON.stringify(body)
+    })
 
+    const session = await response.json();
+    const result = stripe.redirectToCheckout({
+      sessionId:session.id
+    }) 
+    if(result.error){
+      console.log(result.error);
+    }
+  }
   return (
     <>
       <Navbar />
@@ -67,8 +94,9 @@ export default function MyCart() {
           My Cart
         </Typography>
         <Grid container spacing={3}>
-          {Array.isArray(cart.items) && cart.items.length > 0 ? (
-            cart.items.map((item) => (
+          {console.log("cart Items: ",cart)}
+          {
+            cart.cart.items.map((item) => (
               <Grid item xs={12} sm={6} md={4} key={item.productId}>
                 <Card>
                   <Link to={`/productdetails/${item.productId}`}>
@@ -91,18 +119,14 @@ export default function MyCart() {
                 </Card>
               </Grid>
             ))
-          ) : (
-            <Typography variant="body1" color="text.secondary" mt={2}>
-              No items in the cart.
-            </Typography>
-          )}
+          }
         </Grid>
         <Typography variant="h5" mt={4}>
-          Total Price: ${cart.totalPrice}
+          Total Price: ${cart.cart.totalPrice}
         </Typography>
       </Container>
       <Container>
-        <Button>Checkout</Button>
+        <Button onClick={makePayment}>Checkout</Button>
       </Container>
     </>
   );
