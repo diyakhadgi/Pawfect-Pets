@@ -6,32 +6,25 @@ import { Link } from 'react-router-dom';
 
 const fetchCart = async () => {
   const authToken = localStorage.getItem("accessToken");
+  
 
-  if (!authToken) {
-    console.error("No auth token found");
-    return { items: [], totalPrice: 0 };
-  }
-
-  try {
-    const response = await axios.get("http://localhost:8000/cart/getcart", {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    });
-    console.log("API Response Data:", response.data);
-    return response.data.cart || { items: [], totalPrice: 0 };
-  } catch (error) {
-    console.error("Error fetching cart data:", error);
-    return { items: [], totalPrice: 0 }; // Return fallback on error
-  }
+  const response = await axios.get("http://localhost:8000/cart/getcart", {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  });
+  
+  console.log("API Response Data:", response.data);
+  
+  // Return cart data or fallback to default
+  return response.data.cart || { items: [], totalPrice: 0 };
 };
 
 export default function MyCart() {
   const queryClient = useQueryClient();
-  const { isLoading, error, data: cart } = useQuery({
+  const { isLoading, error, data: cart = { items: [], totalPrice: 0 } } = useQuery({
     queryKey: ["cart"],
     queryFn: fetchCart,
-    retry: false, // Avoid repeated retries for debugging purposes
   });
 
   if (isLoading) {
@@ -74,7 +67,7 @@ export default function MyCart() {
           My Cart
         </Typography>
         <Grid container spacing={3}>
-          {cart?.items?.length > 0 ? (
+          {Array.isArray(cart.items) && cart.items.length > 0 ? (
             cart.items.map((item) => (
               <Grid item xs={12} sm={6} md={4} key={item.productId}>
                 <Card>
@@ -105,7 +98,7 @@ export default function MyCart() {
           )}
         </Grid>
         <Typography variant="h5" mt={4}>
-          Total Price: ${cart?.totalPrice ?? 0}
+          Total Price: ${cart.totalPrice}
         </Typography>
       </Container>
       <Container>

@@ -2,7 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import Adoption from "../pages/Adoption";
+
 import AboutUs from "../pages/AboutUs";
 import Food from "../pages/section/Food";
 import Accessories from "../pages/section/Accessories";
@@ -16,6 +16,7 @@ import AdminRegister from "../pages/adminpages/AdminRegister";
 import AdminDashboard from "../pages/adminpages/AdminDashboard";
 import MyCart from "../pages/MyCart";
 import DogForm from "../pages/adminpages/DogForm";
+import AdoptionForm from "../pages/Adoption";
 
 export default function MyRoutes() {
   return (
@@ -25,7 +26,7 @@ export default function MyRoutes() {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/adoption" element={<Adoption />} />
+        <Route path="/adoption" element={<AdoptionForm />} />
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/food" element={<Food />} />
         <Route path="/accessories" element={<Accessories />} />
