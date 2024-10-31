@@ -56,14 +56,7 @@ const Navbar = () => {
           <span className="text-2xl font-semibold dark:text-white">Pawfect Pets</span>
         </Link>
 
-        {/* Search Box */}
-        <div className="relative mx-4 flex-1">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full p-2 rounded-lg border border-gray-300 dark:bg-gray-800 dark:text-white"
-          />
-        </div>
+
 
         {/* Menu Toggle for Mobile */}
         <button
