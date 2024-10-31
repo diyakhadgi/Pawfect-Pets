@@ -17,12 +17,12 @@ const fetchCart = async () => {
   console.log("API Response Data:", response.data);
   
   // Return cart data or fallback to default
-  return response.data.cart || { items: [], totalPrice: 0 };
+  return response.data.cart;
 };
 
 export default function MyCart() {
   const queryClient = useQueryClient();
-  const { isLoading, error, data: cart = { items: [], totalPrice: 0 } } = useQuery({
+  const { isLoading, error, data: cart }= useQuery({
     queryKey: ["cart"],
     queryFn: fetchCart,
   });
