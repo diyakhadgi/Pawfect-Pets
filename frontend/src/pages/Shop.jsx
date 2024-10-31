@@ -9,11 +9,14 @@ import {
   Button,
   CircularProgress,
   Box,
+  TextField,
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"; 
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import axios from 'axios';
+import { useState } from "react";
+
 
 // Fetch products function
 const fetchProducts = async () => {
@@ -26,9 +29,10 @@ const fetchProducts = async () => {
   return response.data;
 };
 
+// 
 const Shop = () => {
   const queryClient = useQueryClient();
-
+  const [searchTerm,setSearchTerm] = useState("");
   // Fetch products query
   const { isLoading, error, data: products } = useQuery({
     queryKey: ["products"],
@@ -105,6 +109,11 @@ const Shop = () => {
   return (
     <>
       <Navbar />
+      <Container>
+        <Box sx={{mt:3,mb:3}}>
+          <TextField label="Search items" variant="standard" fullWidth value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} sx={{mb:2}}/>
+        </Box>
+      </Container>
       <Container>
         <Typography variant="h4" gutterBottom>
           Shop
