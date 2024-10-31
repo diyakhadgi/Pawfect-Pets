@@ -4,8 +4,8 @@ const addToCart = async (req, res) => {
   const Cart = require('../../../models/carts.model');
   const {items } = req.body;
   const userId = req.userId; 
-  console.log("UserId",userId);
-  console.log("req.Body",req.body);
+  // console.log("UserId",userId);
+  // console.log("req.Body",req.body);
 
   try {
     if (!userId) throw new Error('User ID is required');
