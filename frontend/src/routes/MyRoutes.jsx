@@ -4,9 +4,9 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 
 import AboutUs from "../pages/AboutUs";
-import Food from "../pages/section/Food";
-import Accessories from "../pages/section/Accessories";
-import Toys from "../pages/section/Toys";
+// import Food from "../pages/section/Food";
+// import Accessories from "../pages/section/Accessories";
+// import Toys from "../pages/section/Toys";
 import AddProducts from "../pages/adminpages/AddProducts";
 import Shop from "../pages/Shop";
 import Profile from "../pages/Profile";
@@ -28,19 +28,19 @@ export default function MyRoutes() {
         <Route path="/register" element={<Register />} />
         <Route path="/adoption" element={<AdoptionForm />} />
         <Route path="/aboutUs" element={<AboutUs />} />
-        <Route path="/food" element={<Food />} />
-        <Route path="/accessories" element={<Accessories />} />
-        <Route path="/toys" element={<Toys />} />
+        {/* <Route path="/food" element={<Food />} /> */}
+        {/* <Route path="/accessories" element={<Accessories />} /> */}
+        {/* <Route path="/toys" element={<Toys />} /> */}
         <Route path="/addproducts" element={<AddProducts />} />
-        <Route path="/shop" element={<Shop />} />  
-        <Route path="/productdetails/:id" element={<SingleProduct/>}/>
-        <Route path="/profile" element={<Profile/>}/>
-        <Route path="/adminLogin" element={<AdminLogin/>}/>
-        <Route path="/adminRegister" element={<AdminRegister/>}/>
-        <Route path="/adminDashboard" element={<AdminDashboard/>}/>
-        <Route path="/dogForm" element={<DogForm/>}/>
-        <Route path="/cart" element={<MyCart/>}/>
-        </Routes>
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/productdetails/:id" element={<SingleProduct />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/adminLogin" element={<AdminLogin />} />
+        <Route path="/adminRegister" element={<AdminRegister />} />
+        <Route path="/adminDashboard" element={<AdminDashboard />} />
+        <Route path="/dogForm" element={<DogForm />} />
+        <Route path="/cart" element={<MyCart />} />
+      </Routes>
     </BrowserRouter>
   );
 }
