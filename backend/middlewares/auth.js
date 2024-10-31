@@ -25,7 +25,7 @@ const auth = (req, res, next) => {
         // Verify the token using the secret key
         const checkToken = jwt.verify(token, process.env.jwt_secret_key);
         req.userId = checkToken; // Attach the user ID from the token to the req object
-        console.log(req.userId);
+        // console.log(req.userId);
         console.log('Auth Checked');
         next(); // Call next only if the token is valid
     } catch (error) {

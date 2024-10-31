@@ -147,6 +147,9 @@ const Navbar = () => {
                     ) : (
                       <p className="p-4 text-center dark:text-white">Cart is empty</p>
                     )}
+                    <Link to="/cart" className="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                      View Cart
+                    </Link>
                     <Link to="/checkout" className="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                       Checkout
                     </Link>
